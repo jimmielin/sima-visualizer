@@ -165,7 +165,7 @@ _INDEX_CSS = """
 .suite-table .err { color: var(--muted); font-size: 12px; font-style: italic; }
 .src-chip { font-size: 10.5px; font-weight: 700; text-transform: uppercase;
   letter-spacing: 0.04em; border-radius: 5px; padding: 0 6px;
-  border: 1px solid var(--grid); color: var(--ink-2); }
+  border: 1px solid var(--grid); color: var(--ink-2); margin: 0 2px; }
 h2.idx { font-size: 13px; color: var(--muted); text-transform: uppercase;
   letter-spacing: 0.06em; margin: 26px 0 8px; }
 """
@@ -263,8 +263,7 @@ function boot() {
   document.getElementById("app").append(
     h("header", null,
       h("div", { class: "hdr-row" },
-        h("h1", null, "capgen-", h("span", { class: "nx" }, "nx"),
-          " quantity flow"),
+        h("h1", null, "SIMA visualizer"),
         h("span", { class: "spacer" }),
         h("button", {
           id: "theme-toggle", title: "toggle light/dark",

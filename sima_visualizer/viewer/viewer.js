@@ -414,7 +414,7 @@ function boot() {
   app.append(
     h("header", null,
       h("div", { class: "hdr-row" },
-        h("h1", null, "capgen-", h("span", { class: "nx" }, "nx"), " quantity flow"),
+        h("h1", null, "SIMA visualizer"),
         h("span", { class: "spacer" }),
         h("nav", { class: "tabs" },
           h("button", { dataset: { view: "suite" }, onclick: () => { state.view = "suite"; render(); } }, "Suite flow"),
