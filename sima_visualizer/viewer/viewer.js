@@ -413,27 +413,34 @@ function boot() {
   const app = document.getElementById("app");
   app.append(
     h("header", null,
-      h("h1", null, "quantity flow · ", h("span", { class: "suite-name" }, DATA.meta.suite)),
-      h("span", { class: "meta-line" },
-        DATA.meta.sdf + " · host: " + DATA.meta.host + " · " +
-        DATA.meta.n_schemes + " schemes · " + DATA.meta.n_calls + " calls · " +
-        DATA.meta.n_variables + " quantities"),
-      h("span", { class: "spacer" }),
-      h("nav", { class: "tabs" },
-        h("button", { dataset: { view: "suite" }, onclick: () => { state.view = "suite"; render(); } }, "Suite flow"),
-        h("button", { dataset: { view: "trace" }, onclick: () => { state.view = "trace"; render(); } }, "Quantity trace")),
-      h("span", { class: "search-wrap" },
-        h("input", { id: "search", type: "search", placeholder: "search schemes & quantities…" }),
-        h("div", { id: "search-results", style: "display:none" })),
-      h("button", {
-        id: "theme-toggle", title: "toggle light/dark",
-        onclick: () => {
-          const cur = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-          document.documentElement.dataset.theme = cur;
-          localStorage.setItem("sima-viz-theme", cur);
-        },
-      }, "◑")),
-    h("main", null, h("div", { id: "view-root" })));
+      h("div", { class: "hdr-row" },
+        h("h1", null, "capgen-", h("span", { class: "nx" }, "nx"), " quantity flow"),
+        h("span", { class: "spacer" }),
+        h("nav", { class: "tabs" },
+          h("button", { dataset: { view: "suite" }, onclick: () => { state.view = "suite"; render(); } }, "Suite flow"),
+          h("button", { dataset: { view: "trace" }, onclick: () => { state.view = "trace"; render(); } }, "Quantity trace")),
+        h("span", { class: "search-wrap" },
+          h("input", { id: "search", type: "search", placeholder: "search schemes & quantities…" }),
+          h("div", { id: "search-results", style: "display:none" })),
+        h("button", {
+          id: "theme-toggle", title: "toggle light/dark",
+          onclick: () => {
+            const cur = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+            document.documentElement.dataset.theme = cur;
+            localStorage.setItem("sima-viz-theme", cur);
+          },
+        }, "◑")),
+      h("div", { class: "hdr-row meta-row" },
+        h("span", { class: "suite-name" }, DATA.meta.suite),
+        h("span", { class: "meta-line" },
+          DATA.meta.sdf + " · host: " + DATA.meta.host + " · " +
+          DATA.meta.n_schemes + " schemes · " + DATA.meta.n_calls + " calls · " +
+          DATA.meta.n_variables + " quantities"))),
+    h("main", null, h("div", { id: "view-root" })),
+    h("footer", null,
+      "SIMA suite visualizer rev. " + (DATA.meta.tool_rev || "unknown") +
+      " · powered by capgen-", h("span", { class: "nx" }, "nx"),
+      " " + (DATA.meta.capgen_nx_rev || "unknown")));
 
   setupSearch();
 
