@@ -1,0 +1,3 @@
+[submodule "capgen-nx"]
+	path = capgen-nx
+	url = git@github.com:jimmielin/capgen-nx.git
