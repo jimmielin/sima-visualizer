@@ -136,6 +136,15 @@ class CamSima:
         """
         gen_registry, gen_namelist_files = self._import_generators()
 
+        # The generators setLevel() the logger they are handed; give them a
+        # sacrificial one unless the CLI asked for verbose output.
+        gen_logger = _LOGGER
+        if not _LOGGER.isEnabledFor(logging.INFO):
+            gen_logger = logging.getLogger(_LOGGER.name + ".generators")
+            gen_logger.propagate = False
+            if not gen_logger.handlers:
+                gen_logger.addHandler(logging.NullHandler())
+
         # Registry -> generated host .meta (+ referenced pre-existing .meta).
         # Mirrors cam_autogen.generate_registry / generate_physics_suites.
         genreg_dir = os.path.join(workdir, "cam_registry")
@@ -145,7 +154,8 @@ class CamSima:
         shadow_root = self._make_shadow_root(workdir)
         retvals = gen_registry(self.registry_file, self.dycore, genreg_dir,
                                _GEN_FORT_INDENT, src_mods, shadow_root,
-                               logger=_LOGGER, schema_paths=[self._data_dir],
+                               logger=gen_logger,
+                               schema_paths=[self._data_dir],
                                error_on_no_validate=True)
         retcode, reg_file_list, ic_names, constituents, _ = retvals
         if retcode != 0:
@@ -178,7 +188,7 @@ class CamSima:
             args.extend(["--namelist-read-mod", "cam_ccpp_scheme_namelists",
                          "--namelist-read-subname",
                          "cam_read_ccpp_scheme_namelists"])
-            namelist_obj = gen_namelist_files(args, gennl_dir, _LOGGER)
+            namelist_obj = gen_namelist_files(args, gennl_dir, gen_logger)
             for meta in namelist_obj.meta_files():
                 host_files.append(meta)
                 file_categories[meta] = "namelist"
