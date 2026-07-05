@@ -61,7 +61,9 @@ def main(argv=None):
         })
         out = args.output or f"suite_{args.suite}.html"
         write_html(viz, out)
-    except (ResolveError, CamSimaError) as err:
+    except (ResolveError, CamSimaError, ValueError) as err:
+        # ValueError carries capgen-nx resolver diagnostics (e.g. required
+        # variables no host or scheme provides).
         print(f"ERROR: {err}", file=sys.stderr)
         return 1
     finally:
